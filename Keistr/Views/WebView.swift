@@ -12,6 +12,11 @@ import NostrKit
 
 @dynamicMemberLookup
 public class WebViewStore: NSObject, ObservableObject {
+    
+    public enum BridgeFunctionNames: String {
+        case getPublicKey, signEvent, getRelays, encrypt, decrypt
+    }
+    
     @Published public var webView: WKWebView {
         didSet {
             setupObservers()
@@ -32,11 +37,19 @@ public class WebViewStore: NSObject, ObservableObject {
         setupObservers()
     }
     
+    @objc func reload(sender: UIRefreshControl) {
+        DispatchQueue.main.async {
+            self.webView.reload()
+            sender.endRefreshing()
+        }
+    }
+    
     private func setupConfiguration() {
         
         let contentController = WKUserContentController()
-        contentController.add(self, name: "getPublicKey")
-        contentController.add(self, name: "signEvent")
+        contentController.add(self, name: BridgeFunctionNames.getPublicKey.rawValue)
+        contentController.add(self, name: BridgeFunctionNames.signEvent.rawValue)
+        contentController.add(self, name: BridgeFunctionNames.getRelays.rawValue)
         
         let script = WKUserScript(source: self.nostrjs, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         contentController.addUserScript(script)
@@ -45,6 +58,17 @@ public class WebViewStore: NSObject, ObservableObject {
         configs.userContentController = contentController
         
         self.webView = WKWebView(frame: .zero, configuration: configs)
+        self.webView.allowsBackForwardNavigationGestures = true
+        self.webView.allowsLinkPreview = true
+        self.webView.uiDelegate = self
+        
+        // Setup refresh control
+        self.webView.scrollView.bounces = true
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(self.reload), for: UIControl.Event.valueChanged)
+        
+        self.webView.scrollView.addSubview(refreshControl)
+        self.webView.scrollView.refreshControl = refreshControl
     }
     
     private func setupObservers() {
@@ -80,13 +104,23 @@ public class WebViewStore: NSObject, ObservableObject {
     }
 }
 
+extension WebViewStore: WKUIDelegate {
+    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+                        for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
+    }
+}
+
 extension WebViewStore: WKScriptMessageHandler {
+    
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        print(message.name)
         switch message.name {
-        case "getPublicKey":
+        case BridgeFunctionNames.getPublicKey.rawValue:
             self.getPublicKeyPresented = true
-        case "signEvent":
+        case BridgeFunctionNames.signEvent.rawValue:
             guard let json = message.body as? String else { return }
             let data = Data(json.utf8)
             do {
@@ -98,9 +132,12 @@ extension WebViewStore: WKScriptMessageHandler {
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
             }
+        case BridgeFunctionNames.getRelays.rawValue:
+            print(message.name)
         default: ()
         }
     }
+    
     public func send(publicKey: String) {
         let script = "window.nostr.handler_getPublicKey('\(publicKey)')"
         webView.evaluateJavaScript(script) { (result, error) in
@@ -109,6 +146,7 @@ extension WebViewStore: WKScriptMessageHandler {
             }
         }
     }
+    
     public func send(signedEvent event: Event) {
         guard let data = try? JSONEncoder().encode(event) else { return }
         guard let json = String(data: data, encoding: .utf8) else { return }
@@ -120,6 +158,7 @@ extension WebViewStore: WKScriptMessageHandler {
             }
         }
     }
+    
 }
 
 #if os(iOS)

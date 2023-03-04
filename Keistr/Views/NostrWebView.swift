@@ -7,11 +7,13 @@
 
 import SwiftUI
 import NostrKit
+import SDWebImageSwiftUI
 
 struct NostrWebView: View {
     
     @Environment(\.dismiss) var dismiss
     @StateObject var webViewStore = WebViewStore(nostrjs: AppState.shared.nostrjs)
+    @StateObject var internalSiteSession = InternalSiteSession()
     
     @EnvironmentObject var appState: AppState
     
@@ -52,7 +54,11 @@ struct NostrWebView: View {
             .edgesIgnoringSafeArea(.vertical)
             .toolbar(.hidden, for: .bottomBar)
             .onAppear {
+                self.internalSiteSession.baseUrl = "https://snort.social"
                 self.webViewStore.webView.load(URLRequest(url: URL(string: "https://snort.social")!))
+                Task {
+                    await self.internalSiteSession.fetchManifest()
+                }
             }
             .sheet(isPresented: $webViewStore.getPublicKeyPresented) {
                 NavigationStack {
@@ -76,22 +82,41 @@ struct NostrWebView: View {
             .sheet(isPresented: $webViewStore.signEventPresented) {
                 NavigationStack {
                     VStack {
-                        Button(action: {
-                            self.signEvent()
-                            self.webViewStore.signEventPresented = false
-                        }) {
-                            Text("Confirm")
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 40)
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .padding()
+
+                        WebImage(url: URL(string: self.internalSiteSession.iconUrl ?? ""))
+                            .placeholder {
+                                Image(systemName: "network")
+                                    .resizable()
+                                    .imageScale(.medium)
+                                    .frame(width: 65, height: 65)
+                                    .background(
+                                        Color.gray
+                                    )
+                                    .cornerRadius(12)
+                            }
+                            .resizable()
+                            .frame(width: 65, height: 65)
+                            .cornerRadius(12)
+
+
                     }
                     .navigationTitle("Sign Event")
                     .navigationBarTitleDisplayMode(.inline)
                 }
-                .presentationDetents([.medium, .fraction(0.2)])
+                .presentationDetents([.medium, .fraction(0.5)])
                 .presentationDragIndicator(.hidden)
+                .safeAreaInset(edge: .bottom) {
+                    Button(action: {
+                        self.signEvent()
+                        self.webViewStore.signEventPresented = false
+                    }) {
+                        Text("Confirm")
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 40)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding()
+                }
             }
     }
     

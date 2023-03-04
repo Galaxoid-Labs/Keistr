@@ -31,6 +31,8 @@
 		47D57C8E29B27E7500F2E7D2 /* nostr.js in Resources */ = {isa = PBXBuildFile; fileRef = 47D57C8D29B27E7500F2E7D2 /* nostr.js */; };
 		47D57C9129B283F800F2E7D2 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C9029B283F800F2E7D2 /* WebView.swift */; };
 		47D57C9329B29EF100F2E7D2 /* SelectKeyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C9229B29EF100F2E7D2 /* SelectKeyListView.swift */; };
+		47D57C9529B2D64300F2E7D2 /* SiteManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C9429B2D64300F2E7D2 /* SiteManifest.swift */; };
+		47D57C9729B2D7B900F2E7D2 /* InternalSiteSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C9629B2D7B900F2E7D2 /* InternalSiteSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		47D57C8D29B27E7500F2E7D2 /* nostr.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nostr.js; sourceTree = "<group>"; };
 		47D57C9029B283F800F2E7D2 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		47D57C9229B29EF100F2E7D2 /* SelectKeyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectKeyListView.swift; sourceTree = "<group>"; };
+		47D57C9429B2D64300F2E7D2 /* SiteManifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteManifest.swift; sourceTree = "<group>"; };
+		47D57C9629B2D7B900F2E7D2 /* InternalSiteSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalSiteSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 		47D57C4729ABC94500F2E7D2 /* Keistr */ = {
 			isa = PBXGroup;
 			children = (
+				47D57C9829B3B53B00F2E7D2 /* Screenshots */,
 				47D57C7329AD588000F2E7D2 /* Views */,
 				47D57C6229AC08E800F2E7D2 /* Models */,
 				47D57C4E29ABC94600F2E7D2 /* Preview Content */,
@@ -122,6 +127,8 @@
 				47D57C6329AC08FD00F2E7D2 /* OwnerKey.swift */,
 				47D57C6929AC0C9600F2E7D2 /* KeyMetaData.swift */,
 				47D57C6B29AD376200F2E7D2 /* RelayConnection.swift */,
+				47D57C9429B2D64300F2E7D2 /* SiteManifest.swift */,
+				47D57C9629B2D7B900F2E7D2 /* InternalSiteSession.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,6 +168,13 @@
 			children = (
 			);
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		47D57C9829B3B53B00F2E7D2 /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Screenshots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,9 +270,11 @@
 				47D57C5A29ABE3F700F2E7D2 /* AppState.swift in Sources */,
 				47D57C7529AD589100F2E7D2 /* RelaysView.swift in Sources */,
 				47D57C9329B29EF100F2E7D2 /* SelectKeyListView.swift in Sources */,
+				47D57C9729B2D7B900F2E7D2 /* InternalSiteSession.swift in Sources */,
 				47D57C8029AE646200F2E7D2 /* AvatarView.swift in Sources */,
 				47D57C6429AC08FD00F2E7D2 /* OwnerKey.swift in Sources */,
 				47D57C6A29AC0C9600F2E7D2 /* KeyMetaData.swift in Sources */,
+				47D57C9529B2D64300F2E7D2 /* SiteManifest.swift in Sources */,
 				47D57C7729AE62E200F2E7D2 /* KeysView.swift in Sources */,
 				47D57C8529AFA12A00F2E7D2 /* OwnerKeyView.swift in Sources */,
 				47D57C6C29AD376200F2E7D2 /* RelayConnection.swift in Sources */,
