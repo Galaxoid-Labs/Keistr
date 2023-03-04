@@ -26,6 +26,8 @@
         
         ///////////////////////////////////////////
         // These are called by native app
+        // as Promise responses to the functions
+        // called by web app
         ///////////////////////////////////////////
         
         _retval.handler_getPublicKey = function (publicKey) {
@@ -37,7 +39,6 @@
                 }
                 delete this.handlers[HANDLER_GET_PUBLIC_KEY];
             }
-            
         };
         
         _retval.handler_signEvent = function (event) {
@@ -54,7 +55,6 @@
                 }
                 delete this.handlers[HANDLER_SIGN_EVENT];
             }
-            
         };
         
         _retval.handler_getRelays = function (event) {
@@ -71,12 +71,13 @@
                 }
                 delete this.handlers[HANDLER_GET_RELAYS];
             }
-            
         };
         
         ///////////////////////////////////////////
         // Public functions. These are to be called
         // by your web application
+        // These follow NIP-07
+        // https://github.com/nostr-protocol/nips/blob/master/07.md
         ///////////////////////////////////////////
         
         _retval.getPublicKey = function () {
