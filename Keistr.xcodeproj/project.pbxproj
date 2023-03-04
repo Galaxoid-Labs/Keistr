@@ -11,6 +11,26 @@
 		47D57C4B29ABC94500F2E7D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C4A29ABC94500F2E7D2 /* ContentView.swift */; };
 		47D57C4D29ABC94600F2E7D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47D57C4C29ABC94600F2E7D2 /* Assets.xcassets */; };
 		47D57C5029ABC94600F2E7D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47D57C4F29ABC94600F2E7D2 /* Preview Assets.xcassets */; };
+		47D57C5829ABDBF400F2E7D2 /* Setting in Frameworks */ = {isa = PBXBuildFile; productRef = 47D57C5729ABDBF400F2E7D2 /* Setting */; };
+		47D57C5A29ABE3F700F2E7D2 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C5929ABE3F700F2E7D2 /* AppState.swift */; };
+		47D57C5D29ABE43400F2E7D2 /* NostrKit in Frameworks */ = {isa = PBXBuildFile; productRef = 47D57C5C29ABE43400F2E7D2 /* NostrKit */; };
+		47D57C6029ABE44D00F2E7D2 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 47D57C5F29ABE44D00F2E7D2 /* KeychainAccess */; };
+		47D57C6429AC08FD00F2E7D2 /* OwnerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C6329AC08FD00F2E7D2 /* OwnerKey.swift */; };
+		47D57C6629AC0B0100F2E7D2 /* RelayPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C6529AC0B0100F2E7D2 /* RelayPermission.swift */; };
+		47D57C6829AC0BF900F2E7D2 /* Relay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C6729AC0BF900F2E7D2 /* Relay.swift */; };
+		47D57C6A29AC0C9600F2E7D2 /* KeyMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C6929AC0C9600F2E7D2 /* KeyMetaData.swift */; };
+		47D57C6C29AD376200F2E7D2 /* RelayConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C6B29AD376200F2E7D2 /* RelayConnection.swift */; };
+		47D57C6F29AD378500F2E7D2 /* NWWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 47D57C6E29AD378500F2E7D2 /* NWWebSocket */; };
+		47D57C7529AD589100F2E7D2 /* RelaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C7429AD589100F2E7D2 /* RelaysView.swift */; };
+		47D57C7729AE62E200F2E7D2 /* KeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C7629AE62E200F2E7D2 /* KeysView.swift */; };
+		47D57C7A29AE63DB00F2E7D2 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 47D57C7929AE63DB00F2E7D2 /* SDWebImageSwiftUI */; };
+		47D57C7D29AE63E900F2E7D2 /* SDWebImageSVGCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 47D57C7C29AE63E900F2E7D2 /* SDWebImageSVGCoder */; };
+		47D57C8029AE646200F2E7D2 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C7F29AE646200F2E7D2 /* AvatarView.swift */; };
+		47D57C8529AFA12A00F2E7D2 /* OwnerKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C8429AFA12A00F2E7D2 /* OwnerKeyView.swift */; };
+		47D57C8C29B272B900F2E7D2 /* NostrWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C8B29B272B900F2E7D2 /* NostrWebView.swift */; };
+		47D57C8E29B27E7500F2E7D2 /* nostr.js in Resources */ = {isa = PBXBuildFile; fileRef = 47D57C8D29B27E7500F2E7D2 /* nostr.js */; };
+		47D57C9129B283F800F2E7D2 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C9029B283F800F2E7D2 /* WebView.swift */; };
+		47D57C9329B29EF100F2E7D2 /* SelectKeyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C9229B29EF100F2E7D2 /* SelectKeyListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +39,21 @@
 		47D57C4A29ABC94500F2E7D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		47D57C4C29ABC94600F2E7D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47D57C4F29ABC94600F2E7D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		47D57C5929ABE3F700F2E7D2 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		47D57C6129ABE49300F2E7D2 /* Keistr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Keistr.entitlements; sourceTree = "<group>"; };
+		47D57C6329AC08FD00F2E7D2 /* OwnerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerKey.swift; sourceTree = "<group>"; };
+		47D57C6529AC0B0100F2E7D2 /* RelayPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelayPermission.swift; sourceTree = "<group>"; };
+		47D57C6729AC0BF900F2E7D2 /* Relay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relay.swift; sourceTree = "<group>"; };
+		47D57C6929AC0C9600F2E7D2 /* KeyMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyMetaData.swift; sourceTree = "<group>"; };
+		47D57C6B29AD376200F2E7D2 /* RelayConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelayConnection.swift; sourceTree = "<group>"; };
+		47D57C7429AD589100F2E7D2 /* RelaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaysView.swift; sourceTree = "<group>"; };
+		47D57C7629AE62E200F2E7D2 /* KeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeysView.swift; sourceTree = "<group>"; };
+		47D57C7F29AE646200F2E7D2 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		47D57C8429AFA12A00F2E7D2 /* OwnerKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerKeyView.swift; sourceTree = "<group>"; };
+		47D57C8B29B272B900F2E7D2 /* NostrWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostrWebView.swift; sourceTree = "<group>"; };
+		47D57C8D29B27E7500F2E7D2 /* nostr.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nostr.js; sourceTree = "<group>"; };
+		47D57C9029B283F800F2E7D2 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		47D57C9229B29EF100F2E7D2 /* SelectKeyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectKeyListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +61,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47D57C7A29AE63DB00F2E7D2 /* SDWebImageSwiftUI in Frameworks */,
+				47D57C5D29ABE43400F2E7D2 /* NostrKit in Frameworks */,
+				47D57C5829ABDBF400F2E7D2 /* Setting in Frameworks */,
+				47D57C7D29AE63E900F2E7D2 /* SDWebImageSVGCoder in Frameworks */,
+				47D57C6029ABE44D00F2E7D2 /* KeychainAccess in Frameworks */,
+				47D57C6F29AD378500F2E7D2 /* NWWebSocket in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +78,7 @@
 			children = (
 				47D57C4729ABC94500F2E7D2 /* Keistr */,
 				47D57C4629ABC94500F2E7D2 /* Products */,
+				47D57C8829B2729600F2E7D2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,10 +93,15 @@
 		47D57C4729ABC94500F2E7D2 /* Keistr */ = {
 			isa = PBXGroup;
 			children = (
-				47D57C4829ABC94500F2E7D2 /* KeistrApp.swift */,
-				47D57C4A29ABC94500F2E7D2 /* ContentView.swift */,
-				47D57C4C29ABC94600F2E7D2 /* Assets.xcassets */,
+				47D57C7329AD588000F2E7D2 /* Views */,
+				47D57C6229AC08E800F2E7D2 /* Models */,
 				47D57C4E29ABC94600F2E7D2 /* Preview Content */,
+				47D57C4C29ABC94600F2E7D2 /* Assets.xcassets */,
+				47D57C6129ABE49300F2E7D2 /* Keistr.entitlements */,
+				47D57C5929ABE3F700F2E7D2 /* AppState.swift */,
+				47D57C4A29ABC94500F2E7D2 /* ContentView.swift */,
+				47D57C4829ABC94500F2E7D2 /* KeistrApp.swift */,
+				47D57C8D29B27E7500F2E7D2 /* nostr.js */,
 			);
 			path = Keistr;
 			sourceTree = "<group>";
@@ -65,6 +112,55 @@
 				47D57C4F29ABC94600F2E7D2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		47D57C6229AC08E800F2E7D2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				47D57C6729AC0BF900F2E7D2 /* Relay.swift */,
+				47D57C6529AC0B0100F2E7D2 /* RelayPermission.swift */,
+				47D57C6329AC08FD00F2E7D2 /* OwnerKey.swift */,
+				47D57C6929AC0C9600F2E7D2 /* KeyMetaData.swift */,
+				47D57C6B29AD376200F2E7D2 /* RelayConnection.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		47D57C7329AD588000F2E7D2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				47D57C8F29B283E900F2E7D2 /* New Group */,
+				47D57C7E29AE645300F2E7D2 /* Components */,
+				47D57C7429AD589100F2E7D2 /* RelaysView.swift */,
+				47D57C7629AE62E200F2E7D2 /* KeysView.swift */,
+				47D57C8429AFA12A00F2E7D2 /* OwnerKeyView.swift */,
+				47D57C8B29B272B900F2E7D2 /* NostrWebView.swift */,
+				47D57C9029B283F800F2E7D2 /* WebView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		47D57C7E29AE645300F2E7D2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				47D57C7F29AE646200F2E7D2 /* AvatarView.swift */,
+				47D57C9229B29EF100F2E7D2 /* SelectKeyListView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		47D57C8829B2729600F2E7D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		47D57C8F29B283E900F2E7D2 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +179,14 @@
 			dependencies = (
 			);
 			name = Keistr;
+			packageProductDependencies = (
+				47D57C5729ABDBF400F2E7D2 /* Setting */,
+				47D57C5C29ABE43400F2E7D2 /* NostrKit */,
+				47D57C5F29ABE44D00F2E7D2 /* KeychainAccess */,
+				47D57C6E29AD378500F2E7D2 /* NWWebSocket */,
+				47D57C7929AE63DB00F2E7D2 /* SDWebImageSwiftUI */,
+				47D57C7C29AE63E900F2E7D2 /* SDWebImageSVGCoder */,
+			);
 			productName = Keistr;
 			productReference = 47D57C4529ABC94500F2E7D2 /* Keistr.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +215,14 @@
 				Base,
 			);
 			mainGroup = 47D57C3C29ABC94500F2E7D2;
+			packageReferences = (
+				47D57C5629ABDBF400F2E7D2 /* XCRemoteSwiftPackageReference "Setting" */,
+				47D57C5B29ABE43300F2E7D2 /* XCRemoteSwiftPackageReference "NostrKit" */,
+				47D57C5E29ABE44D00F2E7D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				47D57C6D29AD378500F2E7D2 /* XCRemoteSwiftPackageReference "NWWebSocket" */,
+				47D57C7829AE63DB00F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				47D57C7B29AE63E900F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
+			);
 			productRefGroup = 47D57C4629ABC94500F2E7D2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,6 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47D57C8E29B27E7500F2E7D2 /* nostr.js in Resources */,
 				47D57C5029ABC94600F2E7D2 /* Preview Assets.xcassets in Resources */,
 				47D57C4D29ABC94600F2E7D2 /* Assets.xcassets in Resources */,
 			);
@@ -137,8 +250,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47D57C6629AC0B0100F2E7D2 /* RelayPermission.swift in Sources */,
+				47D57C8C29B272B900F2E7D2 /* NostrWebView.swift in Sources */,
+				47D57C6829AC0BF900F2E7D2 /* Relay.swift in Sources */,
+				47D57C5A29ABE3F700F2E7D2 /* AppState.swift in Sources */,
+				47D57C7529AD589100F2E7D2 /* RelaysView.swift in Sources */,
+				47D57C9329B29EF100F2E7D2 /* SelectKeyListView.swift in Sources */,
+				47D57C8029AE646200F2E7D2 /* AvatarView.swift in Sources */,
+				47D57C6429AC08FD00F2E7D2 /* OwnerKey.swift in Sources */,
+				47D57C6A29AC0C9600F2E7D2 /* KeyMetaData.swift in Sources */,
+				47D57C7729AE62E200F2E7D2 /* KeysView.swift in Sources */,
+				47D57C8529AFA12A00F2E7D2 /* OwnerKeyView.swift in Sources */,
+				47D57C6C29AD376200F2E7D2 /* RelayConnection.swift in Sources */,
 				47D57C4B29ABC94500F2E7D2 /* ContentView.swift in Sources */,
 				47D57C4929ABC94500F2E7D2 /* KeistrApp.swift in Sources */,
+				47D57C9129B283F800F2E7D2 /* WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,22 +390,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Keistr/Keistr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Keistr/Preview Content\"";
 				DEVELOPMENT_TEAM = MHMRS5FLW6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Keistr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galaxoidlabs.Keistr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -293,22 +423,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Keistr/Keistr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Keistr/Preview Content\"";
 				DEVELOPMENT_TEAM = MHMRS5FLW6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Keistr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.galaxoidlabs.Keistr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -339,6 +473,90 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		47D57C5629ABDBF400F2E7D2 /* XCRemoteSwiftPackageReference "Setting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/Setting.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		47D57C5B29ABE43300F2E7D2 /* XCRemoteSwiftPackageReference "NostrKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Galaxoid-Labs/NostrKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		47D57C5E29ABE44D00F2E7D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		47D57C6D29AD378500F2E7D2 /* XCRemoteSwiftPackageReference "NWWebSocket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pusher/NWWebSocket.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.2;
+			};
+		};
+		47D57C7829AE63DB00F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		47D57C7B29AE63E900F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSVGCoder.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		47D57C5729ABDBF400F2E7D2 /* Setting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47D57C5629ABDBF400F2E7D2 /* XCRemoteSwiftPackageReference "Setting" */;
+			productName = Setting;
+		};
+		47D57C5C29ABE43400F2E7D2 /* NostrKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47D57C5B29ABE43300F2E7D2 /* XCRemoteSwiftPackageReference "NostrKit" */;
+			productName = NostrKit;
+		};
+		47D57C5F29ABE44D00F2E7D2 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47D57C5E29ABE44D00F2E7D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		47D57C6E29AD378500F2E7D2 /* NWWebSocket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47D57C6D29AD378500F2E7D2 /* XCRemoteSwiftPackageReference "NWWebSocket" */;
+			productName = NWWebSocket;
+		};
+		47D57C7929AE63DB00F2E7D2 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47D57C7829AE63DB00F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+		47D57C7C29AE63E900F2E7D2 /* SDWebImageSVGCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47D57C7B29AE63E900F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */;
+			productName = SDWebImageSVGCoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 47D57C3D29ABC94500F2E7D2 /* Project object */;
 }
