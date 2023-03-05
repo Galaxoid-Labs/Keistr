@@ -19,6 +19,26 @@ struct KeistrApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL { (url) in
+                    if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+                        if let openUrl = components.queryItems?.first(where: { $0.name == "openUrl" }), var value = openUrl.value {
+                            if value.hasSuffix("/") {
+                                value.removeLast()
+                            }
+                            if let internalSiteSession = InternalSiteSession(baseUrlString: value) {
+                                if let indexOf = appState.internalSiteSessions.firstIndex(where: { $0.id == internalSiteSession.id }) {
+                                    appState.currentInternalSiteSession = appState.internalSiteSessions[indexOf]
+                                } else {
+                                    appState.currentInternalSiteSession = internalSiteSession
+                                }
+                            }
+                        }
+                    }
+                }
+                .fullScreenCover(isPresented: $appState.showWelcome) {
+                    WelcomeView()
+                        .environmentObject(appState)
+                }
                 .environmentObject(appState)
         }
         .onChange(of: scenePhase) { phase in

@@ -8,12 +8,23 @@
 import Foundation
 import KeychainAccess
 
+struct InternalSiteUrl: Identifiable {
+    var url: URL
+    var id: String {
+        return url.host() ?? url.absoluteString
+    }
+}
+
 class AppState: ObservableObject {
     
     @Published var ownerKeys: [OwnerKey] = []
     @Published var keyMetaData: [KeyMetaData] = []
     @Published var relays: [Relay] = []
+    @Published var internalSiteSessions: [InternalSiteSession] = []
+    @Published var currentInternalSiteSession: InternalSiteSession?
     
+    @Published var showWelcome: Bool = false
+
     var relayConnections: [RelayConnection] = []
     
     private let defaults = UserDefaults(suiteName: "MHMRS5FLW6.group.com.galaxoidlabs.Keistr")
@@ -40,9 +51,11 @@ class AppState: ObservableObject {
         ownerKeys.removeAll()
         keyMetaData.removeAll()
         relays.removeAll()
+        internalSiteSessions.removeAll()
         ownerKeys.append(contentsOf: [OwnerKey.preview, OwnerKey.preview2])
         keyMetaData.append(KeyMetaData.preview)
         relays.append(contentsOf: Relay.bootStrap)
+        internalSiteSessions.append(InternalSiteSession.preview)
         return .shared
     }
     
@@ -62,6 +75,27 @@ class AppState: ObservableObject {
                 self.relays = relays
             }
         }
+        if let internalSiteSessionsData = defaults?.object(forKey: "internalSiteSessions") as? Data {
+            if let internalSiteSessions = try? decoder.decode([InternalSiteSession].self, from: internalSiteSessionsData) {
+                self.internalSiteSessions = internalSiteSessions
+            }
+        }
+        self.showWelcome = (self.ownerKeys.count == 0)
+    }
+
+    func save() {
+        if let encodedOwnerKeys = try? encoder.encode(ownerKeys) {
+            defaults?.set(encodedOwnerKeys, forKey: "ownerKeys")
+        }
+        if let encodedKeyMetaData = try? encoder.encode(keyMetaData) {
+            defaults?.set(encodedKeyMetaData, forKey: "keyMetaData")
+        }
+        if let encodedRelays = try? encoder.encode(relays) {
+            defaults?.set(encodedRelays, forKey: "relays")
+        }
+        if let encodedInternalSiteSessions = try? encoder.encode(internalSiteSessions) {
+            defaults?.set(encodedInternalSiteSessions, forKey: "internalSiteSessions")
+        }
     }
     
     func connectRelays() {
@@ -79,18 +113,6 @@ class AppState: ObservableObject {
     
     func disconnectRelays() {
         self.relayConnections.forEach({ $0.disconnect() })
-    }
-    
-    func save() {
-        if let encodedOwnerKeys = try? encoder.encode(ownerKeys) {
-            defaults?.set(encodedOwnerKeys, forKey: "ownerKeys")
-        }
-        if let encodedKeyMetaData = try? encoder.encode(keyMetaData) {
-            defaults?.set(encodedKeyMetaData, forKey: "keyMetaData")
-        }
-        if let encodedRelays = try? encoder.encode(relays) {
-            defaults?.set(encodedRelays, forKey: "relays")
-        }
     }
     
     func importNewKey(withPrivateKey privateKey: String) -> Bool {
@@ -191,6 +213,22 @@ class AppState: ObservableObject {
         connectRelays()
         save()
         
+    }
+    
+    func add(internalSiteSession: InternalSiteSession) {
+        if !self.internalSiteSessions.contains(where: { $0.id == internalSiteSession.id }) {
+            self.internalSiteSessions.insert(internalSiteSession, at: 0)
+        }
+        save()
+    }
+    
+    func update(internalSiteSession: InternalSiteSession) {
+        if let indexOf = self.internalSiteSessions.firstIndex(where: { $0.id == internalSiteSession.id }) {
+            self.internalSiteSessions[indexOf] = internalSiteSession
+        } else {
+            self.internalSiteSessions.insert(internalSiteSession, at: 0)
+        }
+        save()
     }
     
 }

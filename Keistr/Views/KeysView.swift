@@ -200,7 +200,7 @@ struct KeysView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             KeysView()
-                .environmentObject(AppState.shared.initPreview())
+                .environmentObject(AppState.shared)
         }
     }
 }

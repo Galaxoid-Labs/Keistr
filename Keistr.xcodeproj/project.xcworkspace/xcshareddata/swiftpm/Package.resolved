@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "haptica",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/efremidze/Haptica.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "6f9e9f97ec0a7394dc6af50e86c7d5ea1d28b2cc"
+      }
+    },
+    {
       "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kishikawakatsumi/KeychainAccess.git",

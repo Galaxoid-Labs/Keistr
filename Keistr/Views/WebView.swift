@@ -27,11 +27,13 @@ public class WebViewStore: NSObject, ObservableObject {
     @Published public var signEventPresented = false
     @Published public var unsignedEvent: [String: Any]?
     
-    public var nostrjs: String
+    public var nostrjs: String?
     
-    public init(webView: WKWebView = WKWebView(), nostrjs: String) {
+    public init(webView: WKWebView = WKWebView()) {
         self.webView = webView
-        self.nostrjs = nostrjs
+        if let filepath = Bundle.main.path(forResource: "nostr", ofType: "js") {
+            self.nostrjs = try? String(contentsOfFile: filepath)
+        }
         super.init()
         setupConfiguration()
         setupObservers()
@@ -51,9 +53,11 @@ public class WebViewStore: NSObject, ObservableObject {
         contentController.add(self, name: BridgeFunctionNames.signEvent.rawValue)
         contentController.add(self, name: BridgeFunctionNames.getRelays.rawValue)
         
-        let script = WKUserScript(source: self.nostrjs, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        contentController.addUserScript(script)
-        
+        if let nostrjs {
+            let script = WKUserScript(source: nostrjs, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+            contentController.addUserScript(script)
+        }
+
         let configs = WKWebViewConfiguration()
         configs.userContentController = contentController
         
