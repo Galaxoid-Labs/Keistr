@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct KeysView: View {
     
@@ -13,6 +14,7 @@ struct KeysView: View {
     @State private var inputFieldText = ""
     @State private var adding = false
     @State private var addConfirmationPresented = false
+    @State private var noKeysFoundFromSearchToast = false
     @FocusState private var focus: Bool
     
     var keys: [OwnerKey] {
@@ -64,6 +66,21 @@ struct KeysView: View {
                             .frame(height: 40)
                     }
                     .buttonStyle(.borderedProminent)
+                    
+                    Button(action: {
+                        withAnimation {
+                            if self.appState.searchAndImportFromKeychain() == false {
+                                noKeysFoundFromSearchToast = true
+                            }
+                        }
+                    }) {
+                        Text("Check for keys in keychain?")
+                            .fontWeight(.medium)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 60)
+                            .foregroundColor(.accentColor)
+                    }
+                    .buttonStyle(.plain)
 
                 }
                 .listRowBackground(Color.clear)
@@ -96,13 +113,13 @@ struct KeysView: View {
                                 .padding(.leading, 12)
                                 .padding(.vertical, 8)
                             }
-                            .overlay(alignment: .leading) {
-                                if ownerKey.defaultKey {
-                                    Rectangle()
-                                        .foregroundColor(.accentColor)
-                                        .frame(width: 4)
-                                }
-                            }
+//                            .overlay(alignment: .leading) {
+//                                if ownerKey.defaultKey {
+//                                    Rectangle()
+//                                        .foregroundColor(.accentColor)
+//                                        .frame(width: 4)
+//                                }
+//                            }
                         }
                         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 12))
                     }
@@ -171,6 +188,19 @@ struct KeysView: View {
                     self.focus.toggle()
                 }
             }
+            Button("Check for keys on keychain?") {
+                withAnimation {
+                    if self.appState.searchAndImportFromKeychain() == false {
+                        noKeysFoundFromSearchToast = true
+                    }
+                }
+            }
+        }
+        .toast(isPresenting: $noKeysFoundFromSearchToast){
+            AlertToast(displayMode: .banner(.slide), type: .regular,
+                       title: "🥲 Sorry",
+                       subTitle: "Unable to find any new keys in your keychain.",
+                       style: AlertToast.AlertStyle.style())
         }
     }
     

@@ -14,9 +14,13 @@ struct NostrWebView: View {
 
     @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scenePhase
     
     @StateObject var webViewStore = WebViewStore()
     @StateObject var internalSiteSessionViewModel: InternalSiteSessionViewModel
+    
+    @State private var signExpanded = false
+    @State private var signSheetFraction = 0.35
     
     var ownerKeys: [OwnerKey] {
         return appState.ownerKeys
@@ -28,6 +32,12 @@ struct NostrWebView: View {
     
     var body: some View {
         WebView(webView: webViewStore.webView)
+            .onReceive(NotificationCenter.default.publisher(for: Notification.Name("background"))) { _ in
+                self.webViewStore.webView.setAllMediaPlaybackSuspended(true)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: Notification.Name("active"))) { _ in
+                self.webViewStore.webView.setAllMediaPlaybackSuspended(false)
+            }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -84,65 +94,159 @@ struct NostrWebView: View {
             .onAppear {
                 self.webViewStore.webView.load(URLRequest(url: self.internalSiteSessionViewModel.internalSiteSession.url))
                 Task {
-                    await self.internalSiteSessionViewModel.fetchManifest()
+                    await self.internalSiteSessionViewModel.fetchIcon()
                 }
+            }
+            .onDisappear {
+                self.webViewStore.webView.setAllMediaPlaybackSuspended(true)
             }
             .sheet(isPresented: $webViewStore.getPublicKeyPresented) {
-                NavigationStack {
-                    List {
-                        ForEach(ownerKeys) { ownerKey in
-                            SelectKeyListView(ownerKey: ownerKey)
-                                .onTapGesture {
-                                    self.internalSiteSessionViewModel.internalSiteSession.ownerKeyPublicKey = ownerKey.publicKey
-                                    self.internalSiteSessionViewModel.internalSiteSession.updatedAt = .now
-                                    self.webViewStore.send(publicKey: ownerKey.publicKey)
-                                    self.webViewStore.getPublicKeyPresented = false
-                                    self.appState.update(internalSiteSession: self.internalSiteSessionViewModel.internalSiteSession)
-                                }
-                                .contentShape(Rectangle())
+                VStack(spacing: 0) {
+                    
+                    HStack {
+                        
+                        VStack(alignment: .leading) {
+                            Text("Login Request")
+                                .font(.title)
+                                .bold()
+                            Text(self.title)
+                                .foregroundColor(.secondary)
                         }
-                    }
-                    .navigationTitle("Select Key")
-                    .navigationBarTitleDisplayMode(.inline)
-                }
-                .presentationDetents([.medium, .fraction(0.3)])
-                .presentationDragIndicator(.hidden)
-            }
-            .sheet(isPresented: $webViewStore.signEventPresented) {
-                NavigationStack {
-                    VStack {
+                        
+                        Spacer()
+                        
                         WebImage(url: URL(string: self.internalSiteSessionViewModel.internalSiteSession.iconUrl ?? ""))
                             .placeholder {
                                 Image(systemName: "network")
                                     .resizable()
                                     .imageScale(.medium)
-                                    .frame(width: 65, height: 65)
+                                    .frame(width: 50, height: 50)
                                     .background(
                                         Color.gray
                                     )
                                     .cornerRadius(12)
                             }
                             .resizable()
-                            .frame(width: 65, height: 65)
+                            .frame(width: 50, height: 50)
                             .cornerRadius(12)
+                        
+                        
+
                     }
-                    .navigationTitle("Sign Event")
-                    .navigationBarTitleDisplayMode(.inline)
+                    .padding()
+                    
+                    Divider()
+
+                    List {
+                        ForEach(ownerKeys) { ownerKey in
+                            SelectKeyListView(ownerKey: ownerKey)
+                                .onTapGesture {
+                                    self.sendPublicKey(ownerKey: ownerKey)
+                                }
+                                .contentShape(Rectangle())
+                        }
+                    }
+                    .scrollContentBackground(.visible)
+                    .edgesIgnoringSafeArea(.bottom)
+
                 }
-                .presentationDetents([.medium, .fraction(0.5)])
+                .presentationDetents([.medium, .large]) // TODO: Make this height based on number of accounts..
+                .presentationDragIndicator(.hidden)
+                .edgesIgnoringSafeArea(.bottom)
+            }
+            .sheet(isPresented: $webViewStore.signEventPresented) {
+                
+                VStack(spacing: 0) {
+                    
+                    HStack {
+                        
+                        VStack(alignment: .leading) {
+                            Text("Signature Request")
+                                .font(.title)
+                                .bold()
+                            Text(self.title)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        WebImage(url: URL(string: self.internalSiteSessionViewModel.internalSiteSession.iconUrl ?? ""))
+                            .placeholder {
+                                Image(systemName: "network")
+                                    .resizable()
+                                    .imageScale(.medium)
+                                    .frame(width: 50, height: 50)
+                                    .background(
+                                        Color.gray
+                                    )
+                                    .cornerRadius(12)
+                            }
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(12)
+
+                    }
+                    .padding()
+                    
+                    Divider()
+
+                    List {
+
+                        DisclosureGroup(isExpanded: $signExpanded) {
+                            Text(self.webViewStore.rawUnsignedEvent?.prettyJson ?? "")
+                                .font(.caption)
+                                .fontDesign(.monospaced)
+                                .foregroundColor(.secondary)
+                        } label: {
+                            Text("View Raw Event")
+                                .foregroundColor(.accentColor)
+                        }
+                        .onChange(of: signExpanded) { newValue in
+                            withAnimation {
+                                if newValue {
+                                    self.signSheetFraction = 1.0
+                                } else {
+                                    self.signSheetFraction = 0.35
+                                }
+                            }
+                        }
+                        .listRowSeparator(.hidden)
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.visible)
+                    .edgesIgnoringSafeArea(.bottom)
+                    
+                }
+                .presentationDetents([.fraction(signSheetFraction), .large])
                 .presentationDragIndicator(.hidden)
                 .safeAreaInset(edge: .bottom) {
-                    Button(action: {
-                        self.signEvent()
-                        self.webViewStore.signEventPresented = false
-                    }) {
-                        Text("Confirm")
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 40)
+                    HStack {
+                        Button(action: {
+                            self.webViewStore.send(signedEvent: nil)
+                            self.webViewStore.signEventPresented = false
+                        }) {
+                            Text("Cancel")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 40)
+                        }
+                        .buttonStyle(.bordered)
+                        
+                        Button(action: {
+                            self.signEvent()
+                            self.webViewStore.signEventPresented = false
+                        }) {
+                            Text("Confirm")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 40)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
                     }
-                    .buttonStyle(.borderedProminent)
                     .padding()
+                    .background(Color.clear)
+                    .edgesIgnoringSafeArea(.bottom)
                 }
+                .interactiveDismissDisabled()
             }
     }
     
@@ -166,10 +270,54 @@ struct NostrWebView: View {
                         internalSiteSession.bookmarked = !internalSiteSession.bookmarked
                         internalSiteSession.updatedAt = .now
                         self.appState.add(internalSiteSession: internalSiteSession)
+                        self.appState.currentInternalSiteSession = internalSiteSession
                         self.internalSiteSessionViewModel.internalSiteSession = internalSiteSession
                     }
                     Task {
-                        await self.internalSiteSessionViewModel.fetchManifest()
+                        await self.internalSiteSessionViewModel.fetchIcon()
+                    }
+                }
+            }
+            Haptic.notification(.success).generate()
+        }
+    }
+    
+    func sendPublicKey(ownerKey: OwnerKey) {
+        if let current = self.webViewStore.webView.url {
+            let base = current.deletingLastPathComponent()
+            if let host = base.host() {
+                if host == self.internalSiteSessionViewModel.internalSiteSession.id {
+                    self.internalSiteSessionViewModel.internalSiteSession.ownerKeyPublicKey = ownerKey.publicKey
+                    self.internalSiteSessionViewModel.internalSiteSession.updatedAt = .now
+                    self.webViewStore.send(publicKey: ownerKey.publicKey)
+                    self.appState.update(internalSiteSession: self.internalSiteSessionViewModel.internalSiteSession)
+                    
+                    self.webViewStore.getPublicKeyPresented = false
+                    
+                } else {
+                    if var internalSiteSession = self.appState.internalSiteSessions.first(where: { $0.id == host }) {
+                        internalSiteSession.url = current
+                        internalSiteSession.ownerKeyPublicKey = ownerKey.publicKey
+                        internalSiteSession.updatedAt = .now
+                        self.appState.update(internalSiteSession: internalSiteSession)
+                        self.appState.currentInternalSiteSession = internalSiteSession
+                        self.internalSiteSessionViewModel.internalSiteSession = internalSiteSession
+                        
+                        self.webViewStore.getPublicKeyPresented = false
+
+                    } else if var internalSiteSession = InternalSiteSession(baseUrlString: current.absoluteString) {
+                        internalSiteSession.url = current
+                        internalSiteSession.ownerKeyPublicKey = ownerKey.publicKey
+                        internalSiteSession.updatedAt = .now
+                        
+                        self.appState.add(internalSiteSession: internalSiteSession)
+                        self.appState.currentInternalSiteSession = internalSiteSession
+                        self.internalSiteSessionViewModel.internalSiteSession = internalSiteSession
+                        
+                        self.webViewStore.getPublicKeyPresented = false
+                    }
+                    Task {
+                        await self.internalSiteSessionViewModel.fetchIcon()
                     }
                 }
             }
@@ -197,31 +345,42 @@ struct NostrWebView: View {
     }
     
     func signEvent() {
-        guard let unsignedEvent = self.webViewStore.unsignedEvent else { return }
-        guard let id = unsignedEvent["id"] as? String else { return }
-        guard let publicKey = unsignedEvent["pubkey"] as? String else { return }
-        guard let created_at = unsignedEvent["created_at"] as? Int else { return }
-        let createdAt = Timestamp(timestamp: created_at)
-        guard let kind = unsignedEvent["kind"] as? Int else { return }
+
+        guard let unsignedEvent = self.webViewStore.unsignedEvent else { self.webViewStore.send(signedEvent: nil); return }
+        guard let kind = unsignedEvent["kind"] as? Int else { self.webViewStore.send(signedEvent: nil); return }
         let eventKind = EventKind(id: kind)
-        guard let tags = unsignedEvent["tags"] as? [[String]] else { return }
+        guard let tags = unsignedEvent["tags"] as? [[String]] else { self.webViewStore.send(signedEvent: nil); return }
         let eventTags = tags.map({ EventTag(underlyingData: $0) })
-        guard let content = unsignedEvent["content"] as? String else { return }
+        guard let content = unsignedEvent["content"] as? String else { self.webViewStore.send(signedEvent: nil); return }
         
         guard let ownerKey = self.appState.ownerKeys.first(where: { $0.publicKey == self.internalSiteSessionViewModel.internalSiteSession.ownerKeyPublicKey }) else { return }
-        guard let keypair = ownerKey.getKeyPair() else { return }
+        guard let keypair = ownerKey.getKeyPair() else { self.webViewStore.send(signedEvent: nil); return }
         
-        do {
-            let event = try Event(keyPair: keypair, id: id, publicKey: publicKey,
-                                  createdAt: createdAt, kind: eventKind, tags: eventTags, content: content)
+        let id = unsignedEvent["id"] as? String
+        let publicKey = unsignedEvent["pubkey"] as? String
+        let created_at = unsignedEvent["created_at"] as? Int
+        
+        var event: Event?
+        
+        if let id, let publicKey, let created_at {
+            let createdAt = Timestamp(timestamp: created_at)
+            event = try? Event(keyPair: keypair, id: id, publicKey: publicKey,
+                               createdAt: createdAt, kind: eventKind, tags: eventTags, content: content)
+        } else {
+            event = try? Event(keyPair: keypair, kind: eventKind, tags: eventTags, content: content)
+        }
+        
+        if let event {
             self.webViewStore.send(signedEvent: event)
             self.internalSiteSessionViewModel.internalSiteSession.updatedAt = .now
             self.appState.update(internalSiteSession: self.internalSiteSessionViewModel.internalSiteSession)
-        } catch {
-            print(error.localizedDescription)
+            Haptic.notification(.success).generate()
+        } else {
+            self.webViewStore.send(signedEvent: nil); return
         }
-
+        
     }
+    
 }
 
 struct NostrWebView_Previews: PreviewProvider {
@@ -233,3 +392,12 @@ struct NostrWebView_Previews: PreviewProvider {
     }
 }
 
+extension Data {
+    var prettyJson: String? {
+        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+              let prettyPrintedString = String(data: data, encoding:.utf8) else { return nil }
+
+        return prettyPrintedString
+    }
+}

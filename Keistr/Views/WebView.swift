@@ -26,6 +26,7 @@ public class WebViewStore: NSObject, ObservableObject {
     @Published public var getPublicKeyPresented = false
     @Published public var signEventPresented = false
     @Published public var unsignedEvent: [String: Any]?
+    @Published public var rawUnsignedEvent: Data?
     
     public var nostrjs: String?
     
@@ -37,6 +38,10 @@ public class WebViewStore: NSObject, ObservableObject {
         super.init()
         setupConfiguration()
         setupObservers()
+    }
+    
+    deinit {
+        print("DONE BITCH!")
     }
     
     @objc func reload(sender: UIRefreshControl) {
@@ -130,6 +135,9 @@ extension WebViewStore: WKScriptMessageHandler {
             do {
                 // make sure this JSON is in the format we expect
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    guard let kind = json["kind"] as? Int else { return }
+                    self.rawUnsignedEvent = data
+                    //self.eventKind = EventKind(id: kind)
                     self.unsignedEvent = json
                     self.signEventPresented = true
                 }
@@ -142,23 +150,40 @@ extension WebViewStore: WKScriptMessageHandler {
         }
     }
     
-    public func send(publicKey: String) {
-        let script = "window.nostr.handler_getPublicKey('\(publicKey)')"
-        webView.evaluateJavaScript(script) { (result, error) in
-            if let error {
-                print("An error occurred: \(error)")
+    public func send(publicKey: String?) {
+        if let publicKey {
+            let script = "window.nostr.handler_getPublicKey('\(publicKey)')"
+            webView.evaluateJavaScript(script) { (result, error) in
+                if let error {
+                    print("An error occurred: \(error)")
+                }
+            }
+        } else {
+            let script = "window.nostr.handler_getPublicKey(undefined)"
+            webView.evaluateJavaScript(script) { (result, error) in
+                if let error {
+                    print("An error occurred: \(error)")
+                }
             }
         }
     }
     
-    public func send(signedEvent event: Event) {
-        guard let data = try? JSONEncoder().encode(event) else { return }
-        guard let json = String(data: data, encoding: .utf8) else { return }
-        let script = "window.nostr.handler_signEvent('\(json)')"
-        self.unsignedEvent = nil
-        webView.evaluateJavaScript(script) { (result, error) in
-            if let error {
-                print("An error occurred: \(error)")
+    public func send(signedEvent event: Event?) {
+        if let event, let data = try? JSONEncoder().encode(event), let json = String(data: data, encoding: .utf8) {
+            let script = "window.nostr.handler_signEvent('\(json)')"
+            self.unsignedEvent = nil
+            webView.evaluateJavaScript(script) { (result, error) in
+                if let error {
+                    print("An error occurred: \(error)")
+                }
+            }
+        } else {
+            let script = "window.nostr.handler_signEvent(undefined)"
+            self.unsignedEvent = nil
+            webView.evaluateJavaScript(script) { (result, error) in
+                if let error {
+                    print("An error occurred: \(error)")
+                }
             }
         }
     }

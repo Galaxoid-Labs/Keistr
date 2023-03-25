@@ -134,7 +134,9 @@ struct ContentView: View {
                 
             }
         }
-        .fullScreenCover(item: $appState.currentInternalSiteSession, content: { internalSiteSession in
+        .fullScreenCover(item: $appState.currentInternalSiteSession, onDismiss: {
+            
+        }, content: { internalSiteSession in
             NavigationStack {
                 NostrWebView(internalSiteSessionViewModel: InternalSiteSessionViewModel(internalSiteSession: internalSiteSession))
             }

@@ -34,13 +34,13 @@ struct SelectKeyListView: View {
             .padding(.vertical, 8)
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 12))
-        .overlay(alignment: .leading) {
-            if ownerKey.defaultKey {
-                Rectangle()
-                    .foregroundColor(.accentColor)
-                    .frame(width: 4)
-            }
-        }
+//        .overlay(alignment: .leading) {
+//            if ownerKey.defaultKey {
+//                Rectangle()
+//                    .foregroundColor(.accentColor)
+//                    .frame(width: 4)
+//            }
+//        }
     }
 }
 

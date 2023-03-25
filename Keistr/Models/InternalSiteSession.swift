@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FaviconFinder
 
 struct InternalSiteSession: Codable, Identifiable {
 
@@ -14,7 +15,6 @@ struct InternalSiteSession: Codable, Identifiable {
     var updatedAt: Date
     var bookmarked: Bool
     var ownerKeyPublicKey: String?
-    var siteManifest: SiteManifest?
     var iconUrl: String?
     
     var baseUrl: URL {
@@ -28,13 +28,12 @@ struct InternalSiteSession: Codable, Identifiable {
     }
 
     internal init(id: String, baseUrl: URL, updatedAt: Date, bookmarked: Bool, ownerKeyPublicKey: String? = nil,
-                  siteManifest: SiteManifest? = nil, iconUrl: String? = nil) {
+                  iconUrl: String? = nil) {
         self.url = baseUrl
         self.id = id
         self.updatedAt = updatedAt
         self.bookmarked = bookmarked
         self.ownerKeyPublicKey = ownerKeyPublicKey
-        self.siteManifest = siteManifest
         self.iconUrl = iconUrl
     }
     
@@ -55,20 +54,31 @@ class InternalSiteSessionViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchManifest() async {
-        guard let url = URL(string: internalSiteSession.baseUrl.absoluteString + "/manifest.json") else { return }
-        guard let (data, _) = try? await URLSession.shared.data(for: URLRequest(url: url)) else { return }
+    func fetchIcon() async {
+        
         do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let manifest = try decoder.decode(SiteManifest.self, from: data)
-            self.internalSiteSession.siteManifest = manifest
-            if let iconPath = self.internalSiteSession.siteManifest?.iconPath {
-                self.internalSiteSession.iconUrl = internalSiteSession.baseUrl.absoluteString + "/" + iconPath
+            let favicon = try await FaviconFinder(
+                url: internalSiteSession.url,
+                preferredType: .html,
+                preferences: [
+                    .html: FaviconType.appleTouchIcon.rawValue,
+                    .ico: "favicon.ico",
+                    .webApplicationManifestFile: FaviconType.launcherIcon4x.rawValue
+                ],
+                downloadImage: false
+            )
+            .downloadFavicon()
+
+            internalSiteSession.iconUrl = favicon.url.absoluteString
+
+            if let indexOf = AppState.shared.internalSiteSessions.firstIndex(where: { $0.id == internalSiteSession.id }) {
+                AppState.shared.internalSiteSessions[indexOf].iconUrl = internalSiteSession.iconUrl
             }
-        } catch {
-            print(error)
+
+        } catch let error {
+            print("Error fetching favicon: \(error)")
         }
+        
     }
     
 }

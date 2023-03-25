@@ -45,10 +45,12 @@ struct KeistrApp: App {
             switch phase {
             case .background:
                 print("🍑 Keistr => Entered Background Phase")
+                NotificationCenter.default.post(name: Notification.Name("background"), object: nil)
                 appState.save()
                 appState.disconnectRelays()
             case .active:
                 print("🍑 Keistr => Entered Active Phase")
+                NotificationCenter.default.post(name: Notification.Name("active"), object: nil)
                 appState.load()
                 appState.connectRelays()
             case .inactive:

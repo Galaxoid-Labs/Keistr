@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4766DFF229CDF3CD0032B2A3 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = 4766DFF129CDF3CD0032B2A3 /* FaviconFinder */; };
+		4766DFF529CF3D7A0032B2A3 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 4766DFF429CF3D7A0032B2A3 /* AlertToast */; };
 		47D57C4929ABC94500F2E7D2 /* KeistrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C4829ABC94500F2E7D2 /* KeistrApp.swift */; };
 		47D57C4B29ABC94500F2E7D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D57C4A29ABC94500F2E7D2 /* ContentView.swift */; };
 		47D57C4D29ABC94600F2E7D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47D57C4C29ABC94600F2E7D2 /* Assets.xcassets */; };
@@ -109,6 +111,8 @@
 				47D57C7A29AE63DB00F2E7D2 /* SDWebImageSwiftUI in Frameworks */,
 				47D57C5D29ABE43400F2E7D2 /* NostrKit in Frameworks */,
 				47D57C5829ABDBF400F2E7D2 /* Setting in Frameworks */,
+				4766DFF529CF3D7A0032B2A3 /* AlertToast in Frameworks */,
+				4766DFF229CDF3CD0032B2A3 /* FaviconFinder in Frameworks */,
 				47D57C7D29AE63E900F2E7D2 /* SDWebImageSVGCoder in Frameworks */,
 				47F8C56129B540BB00FA5CF5 /* Haptica in Frameworks */,
 				47D57C6029ABE44D00F2E7D2 /* KeychainAccess in Frameworks */,
@@ -262,6 +266,8 @@
 				47D57C7929AE63DB00F2E7D2 /* SDWebImageSwiftUI */,
 				47D57C7C29AE63E900F2E7D2 /* SDWebImageSVGCoder */,
 				47F8C56029B540BB00FA5CF5 /* Haptica */,
+				4766DFF129CDF3CD0032B2A3 /* FaviconFinder */,
+				4766DFF429CF3D7A0032B2A3 /* AlertToast */,
 			);
 			productName = Keistr;
 			productReference = 47D57C4529ABC94500F2E7D2 /* Keistr.app */;
@@ -319,6 +325,8 @@
 				47D57C7829AE63DB00F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				47D57C7B29AE63E900F2E7D2 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
 				47F8C55F29B540BB00FA5CF5 /* XCRemoteSwiftPackageReference "Haptica" */,
+				4766DFF029CDF3CD0032B2A3 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
+				4766DFF329CF3D7A0032B2A3 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 47D57C4629ABC94500F2E7D2 /* Products */;
 			projectDirPath = "";
@@ -665,6 +673,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4766DFF029CDF3CD0032B2A3 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/will-lumley/FaviconFinder.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		4766DFF329CF3D7A0032B2A3 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		47D57C5629ABDBF400F2E7D2 /* XCRemoteSwiftPackageReference "Setting" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aheze/Setting.git";
@@ -724,6 +748,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4766DFF129CDF3CD0032B2A3 /* FaviconFinder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4766DFF029CDF3CD0032B2A3 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
+			productName = FaviconFinder;
+		};
+		4766DFF429CF3D7A0032B2A3 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4766DFF329CF3D7A0032B2A3 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
 		47D57C5729ABDBF400F2E7D2 /* Setting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 47D57C5629ABDBF400F2E7D2 /* XCRemoteSwiftPackageReference "Setting" */;

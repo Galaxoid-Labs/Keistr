@@ -118,9 +118,6 @@ class AppState: ObservableObject {
     func importNewKey(withPrivateKey privateKey: String) -> Bool {
         if var ownerKey = OwnerKey(privateKey: privateKey) {
             if ownerKeys.first(where: { $0.publicKey == ownerKey.publicKey }) == nil {
-                if self.ownerKeys.count == 0 {
-                    ownerKey.defaultKey = true
-                }
                 ownerKey.metaDataRelayPermissions = Set(self.relays.map({ RelayPermission(relayId: $0.id, write: false, read: true) }))
                 ownerKeys.append(ownerKey)
                 if keyMetaData.first(where: { $0.publicKey == ownerKey.publicKey }) == nil {
@@ -134,12 +131,32 @@ class AppState: ObservableObject {
         return false
     }
     
+    func searchAndImportFromKeychain() -> Bool {
+        let ownerKeys = OwnerKey.getAllValidOwnerKeys()
+        var newKeysFound = 0
+        for var ownerKey in ownerKeys {
+            if self.ownerKeys.contains(where: { $0.publicKey == ownerKey.publicKey }) {
+                continue
+            } else {
+                ownerKey.metaDataRelayPermissions = Set(self.relays.map({ RelayPermission(relayId: $0.id, write: false, read: true) }))
+                self.ownerKeys.append(ownerKey)
+                if keyMetaData.first(where: { $0.publicKey == ownerKey.publicKey }) == nil {
+                    keyMetaData.append(KeyMetaData(withPublicKey: ownerKey.publicKey))
+                }
+                newKeysFound += 1
+            }
+        }
+        if newKeysFound > 0 {
+            connectRelays()
+            save()
+            return true
+        }
+        return false
+    }
+    
     func addNewKey() -> Bool {
         guard var ownerKey = OwnerKey() else { return false }
         let keyMetaData = KeyMetaData(withPublicKey: ownerKey.publicKey)
-        if self.ownerKeys.count == 0 {
-            ownerKey.defaultKey = true
-        }
         ownerKey.metaDataRelayPermissions = Set(self.relays.map({ RelayPermission(relayId: $0.id, write: false, read: true) }))
         self.ownerKeys.insert(ownerKey, at: 0)
         self.keyMetaData.insert(keyMetaData, at: 0)
@@ -163,11 +180,6 @@ class AppState: ObservableObject {
             self.keyMetaData.removeAll(where: { $0.publicKey == publicKey })
         }
 
-        if self.ownerKeys.contains(where: { $0.defaultKey == true }) == false {
-            if self.ownerKeys.count > 0 {
-                self.ownerKeys[0].defaultKey = true
-            }
-        }
         connectRelays()
         save()
     }

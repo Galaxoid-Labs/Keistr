@@ -16,7 +16,6 @@ struct OwnerKey: Codable {
 
     let publicKey: String
     var metaDataRelayPermissions: Set<RelayPermission>
-    var defaultKey: Bool
     
     var bech32PublicKey: String? {
         KeyPair.bech32PublicKey(fromHex: publicKey)
@@ -44,27 +43,26 @@ struct OwnerKey: Codable {
         self.init(privateKey: keypair.privateKey)
     }
     
-    init?(privateKey: String, defaultKey: Bool = false) {
+    init?(privateKey: String) {
         if let keypair = OwnerKey.keyPairFrom(string: privateKey) {
             OwnerKey.saveKeyPairToKeychain(keyPair: keypair)
-            self.init(publicKey: keypair.publicKey, metaDataRelayPermissions: [], defaultKey: defaultKey)
+            self.init(publicKey: keypair.publicKey, metaDataRelayPermissions: [])
         } else {
             return nil
         }
     }
     
-    init?(publicKey: String, defaultKey: Bool) {
+    init?(publicKey: String) {
         let keychain = Keychain(service: KeychainService, accessGroup: KeychainGroup)
         guard let _ = try? keychain.getString(publicKey) else {
             return nil
         }
-        self.init(publicKey: publicKey, metaDataRelayPermissions: [], defaultKey: defaultKey)
+        self.init(publicKey: publicKey, metaDataRelayPermissions: [])
     }
     
-    internal init(publicKey: String, metaDataRelayPermissions: Set<RelayPermission>, defaultKey: Bool) {
+    internal init(publicKey: String, metaDataRelayPermissions: Set<RelayPermission>) {
         self.publicKey = publicKey
         self.metaDataRelayPermissions = metaDataRelayPermissions
-        self.defaultKey = defaultKey
     }
     
 }
@@ -99,6 +97,15 @@ extension OwnerKey {
         return try? KeyPair(privateKey: privateKey)
     }
     
+    static func getAllValidOwnerKeys() -> [OwnerKey] {
+        #if targetEnvironment(simulator)
+        return []
+        #endif
+        let keychain = Keychain(service: KeychainService, accessGroup: KeychainGroup)
+        let allKeys = keychain.allKeys()
+        return allKeys.compactMap({ OwnerKey(publicKey: $0) })
+    }
+    
     func deleteKeyPair() {
         let keychain = Keychain(service: KeychainService, accessGroup: KeychainGroup)
         try? keychain.remove(publicKey)
@@ -107,11 +114,11 @@ extension OwnerKey {
     static var preview: OwnerKey {
         return OwnerKey(publicKey: "c5cfda98d01f152b3493d995eed4cdb4d9e55a973925f6f9ea24769a5a21e778", metaDataRelayPermissions: [
             RelayPermission(relayId: "wss://brb.io", write: true, read: false)
-        ], defaultKey: true)
+        ])
     }
     
     static var preview2: OwnerKey {
-        return OwnerKey(publicKey: "02d2f1ef7604c215a90684c2389435655cd94f63bdf8fbccbd851788470ff345", metaDataRelayPermissions: [], defaultKey: false)
+        return OwnerKey(publicKey: "02d2f1ef7604c215a90684c2389435655cd94f63bdf8fbccbd851788470ff345", metaDataRelayPermissions: [])
     }
     
 }

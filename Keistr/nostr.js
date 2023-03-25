@@ -48,8 +48,6 @@
             if (this.handlers.hasOwnProperty(HANDLER_SIGN_EVENT)) {
                 if (typeof parsedResult !== 'undefined') {
                     this.handlers[HANDLER_SIGN_EVENT].resolve(parsedResult);
-                } else if (typeof parsedResult !== 'undefined') {
-                    this.handlers[HANDLER_SIGN_EVENT].reject(parsedResult);
                 } else {
                     this.handlers[HANDLER_SIGN_EVENT].reject(new Error('Signature request was cancelled or there was a problem'));
                 }
@@ -64,8 +62,6 @@
             if (this.handlers.hasOwnProperty(HANDLER_GET_RELAYS)) {
                 if (typeof parsedResult !== 'undefined') {
                     this.handlers[HANDLER_GET_RELAYS].resolve(parsedResult);
-                } else if (typeof parsedResult !== 'undefined') {
-                    this.handlers[HANDLER_GET_RELAYS].reject(parsedResult);
                 } else {
                     this.handlers[HANDLER_GET_RELAYS].reject(new Error('There was an issue requesting relays'));
                 }
